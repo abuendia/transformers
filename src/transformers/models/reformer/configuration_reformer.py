@@ -195,6 +195,7 @@ class ReformerConfig(PretrainedConfig):
         tie_word_embeddings=False,
         use_cache=True,
         classifier_dropout=None,
+        pos_embeds_path=None,
         **kwargs
     ):
         self.hash_seed = hash_seed
@@ -227,6 +228,7 @@ class ReformerConfig(PretrainedConfig):
         self.attn_layers = attn_layers
         self.use_cache = use_cache
         self.classifier_dropout = classifier_dropout
+        self.pos_embeds_path = pos_embeds_path
         super().__init__(
             pad_token_id=pad_token_id,
             eos_token_id=eos_token_id,

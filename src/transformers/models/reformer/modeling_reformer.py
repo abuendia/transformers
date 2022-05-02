@@ -215,7 +215,12 @@ class PositionEmbeddings(nn.Module):
     def __init__(self, config):
         super().__init__()
         self.dropout = config.hidden_dropout_prob
-        self.embedding = nn.Embedding(config.max_position_embeddings, config.hidden_size)
+        # self.embedding = nn.Embedding(config.max_position_embeddings, config.hidden_size)
+
+        pos_embeds_weights = np.load(config.pos_embeds_path)
+        pos_embeds_weights = np.concatenate((pos_embeds_weights, np.zeros((1, pos_embeds_weights.shape[1]))), axis=0)
+        pos_embeds_weights = torch.from_numpy(pos_embeds_weights)
+        self.embedding = nn.Embedding.from_pretrained(pos_embeds_weights)
 
     def forward(self, position_ids):
         position_embeddings = self.embedding(position_ids)
