@@ -733,7 +733,11 @@ class ModuleUtilsMixin:
             `int`: The total number of tokens.
         """
         if self.main_input_name in input_dict:
-            return input_dict[self.main_input_name].numel()
+            inputs = input_dict[self.main_input_name]
+            if isinstance(inputs, list):
+                return sum([item.numel() for item in inputs])
+            else:
+                return inputs.numel()
         else:
             logger.warning(
                 "Could not estimate the number of tokens of the input, floating-point operations will not be computed"
